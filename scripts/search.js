@@ -1,48 +1,56 @@
 // search.js
-// Simple loop-based search (controlled search: only specific keys)
+// Simple loop-based search (controlled search)
 
 document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("search-form");
     const input = document.getElementById("search-input");
-    const searchBtn = document.getElementById("search-btn");
     const resetBtn = document.getElementById("reset-btn");
     const resultsDiv = document.getElementById("results");
     const resultsCount = document.getElementById("results-count");
     const empty = document.getElementById("empty");
 
-    // show all movies on load
+    // Show all movies on load
     renderResults(movies);
 
-    searchBtn.addEventListener("click", function () {
+    // Enter key + Search button (submit)
+    form.addEventListener("submit", function (e) {
+        e.preventDefault(); // prevents page refresh
+        runSearch();
+    });
+
+    // Reset button
+    resetBtn.addEventListener("click", function () {
+        input.value = "";
+        renderResults(movies);
+        input.focus();
+    });
+
+    function runSearch() {
         const query = input.value.trim().toLowerCase();
         console.log("Search query:", query);
+
+        // If empty query, show all (common expected behavior)
+        if (query === "") {
+            renderResults(movies);
+            return;
+        }
 
         const matches = [];
 
         for (let i = 0; i < movies.length; i++) {
             const m = movies[i];
 
-            // controlled search: ONLY check these fields (simple + predictable)
             const title = String(m.title).toLowerCase();
             const genre = String(m.genre).toLowerCase();
             const desc = String(m.description).toLowerCase();
 
-            if (
-                title.includes(query) ||
-                genre.includes(query) ||
-                desc.includes(query)
-            ) {
+            if (title.includes(query) || genre.includes(query) || desc.includes(query)) {
                 matches.push(m);
             }
         }
 
         renderResults(matches);
-    });
-
-    resetBtn.addEventListener("click", function () {
-        input.value = "";
-        renderResults(movies);
-        input.focus();
-    });
+    }
 
     function renderResults(list) {
         resultsDiv.innerHTML = "";
