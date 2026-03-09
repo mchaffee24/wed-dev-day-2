@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function runSearch() {
         const query = input.value.trim().toLowerCase();
         sessionStorage.setItem("lastSearch", query);
-
+      
         if (query === "") {
-            renderResults(movies);
-            return;
+          renderResults(movies);
+          return;
         }
 
         const matches = [];
