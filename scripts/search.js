@@ -1,5 +1,3 @@
-// search.js
-
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("search-form");
     const input = document.getElementById("search-input");
@@ -8,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const resultsCount = document.getElementById("results-count");
     const empty = document.getElementById("empty");
 
-    // Show all movies on load
     renderResults(movies);
 
     form.addEventListener("submit", function (e) {
@@ -16,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
         runSearch();
     });
 
-    // Reset button
     resetBtn.addEventListener("click", function () {
         input.value = "";
         renderResults(movies);
@@ -25,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function runSearch() {
         const query = input.value.trim().toLowerCase();
-        console.log("Search query:", query);
+        sessionStorage.setItem("lastSearch", query);
 
         if (query === "") {
             renderResults(movies);
@@ -36,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (let i = 0; i < movies.length; i++) {
             const m = movies[i];
-
             const title = String(m.title).toLowerCase();
             const genre = String(m.genre).toLowerCase();
             const desc = String(m.description).toLowerCase();
@@ -51,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderResults(list) {
         resultsDiv.innerHTML = "";
-
         resultsCount.textContent =
             "Showing " + list.length + " result" + (list.length === 1 ? "" : "s");
 
